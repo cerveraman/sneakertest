@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: cerveraman/sneaker-test
+        ports:
+        - containerPort: 3001
+        - containerPort: 6379
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+       

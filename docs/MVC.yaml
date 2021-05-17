@@ -1,0 +1,16 @@
+.github/workflows: "jenkins steps?"
+.vscode:"NPI"
+
+src: "All backend code is here"
+  config:
+  controllers:
+  models:
+  public:
+  types:
+  util:
+
+test: "Application testing - NPI"
+view: "app views (html outputs or similar)"
+
+
+

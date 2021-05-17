@@ -1,0 +1,122 @@
+swagger: '2.0'
+info:
+  description: “This is an exercise to learn how to create a REST API about sneakers”
+  version: 1.0.0
+  title: Sneaker shop
+  termsOfService: 'http://fake.io/terms/'
+  contact:
+    email: “fakemail@fakeshop.com”
+host: '“localhost:3000”'
+basePath: /v1
+tags:
+  - name: “sneaker”
+    description: Details about the sneaker
+  - name: “order”
+    description: Details about the order
+schemes:
+  - http
+paths:
+  /sneaker:
+    get:
+      tags:
+        - “sneaker"
+      summary: Lists all sneakers
+      description: Returns a list of sneakers
+      operationId: getSneakers
+      parameters:
+        - name: basedOnStock
+          in: header
+          description: filter sneaker models based on stock
+          required: true
+          type: integer
+          format: int64
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/sneaker'
+        '404':
+          description: List not found
+  /order:
+    post:
+      tags:
+        - order
+      summary: Place a new order
+      operationId: addOrder
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: order
+          description: Order to place
+          required: true
+          schema:
+            type: object
+            required:
+              - customerId
+              - sneakerList
+            properties:
+              customerId:
+                type: string
+              city:
+                type: string
+              sneakerList:
+                type: array
+                items:
+                  $ref: '#/definitions/sneaker'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/order'
+        '500':
+          description: Server error
+definitions:
+  order:
+    type: object
+    properties:
+      customerId:
+        type: string
+        example: Cust1234
+      city:
+        type: string
+        example: Zaragoza
+      orderId:
+        type: string
+        example: A1234
+      sneakerList:
+        type: object
+        format: 'sneaker[]'
+      shipDate:
+        type: string
+        format: date-time
+      status:
+        type: string
+        description: Order Status
+        enum:
+          - placed
+          - approved
+          - delivered
+      complete:
+        type: boolean
+        default: false
+      token:
+        type: string
+        description: follow up token
+  sneaker:
+    type: object
+    properties:
+      id:
+        type: string
+      sneakername:
+        type: string
+        example: Ultraboost
+      stock:
+        type: integer
+        format: int64

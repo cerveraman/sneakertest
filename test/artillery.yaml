@@ -1,0 +1,37 @@
+config:
+  target: "https://localhost/v1"
+  tls:
+    rejectUnauthorized: false
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: Warm up
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+      name: Ramp up load
+    - duration: 300
+      arrivalRate: 50
+      name: Sustained load
+  payload:
+    path: "datos.csv"
+    fields:
+      - "id"
+      - "description"
+      - "stock"
+
+scenarios:
+  - name: "post and check"
+    flow:
+      - post:
+          url: "/sneaker"
+          json:
+            id: "{{ id }}"
+            description: "{{ description }}"
+            stock: "{{ stock }}"
+          capture:
+            - json: "$.results[0].description"
+              as: "description"
+      - get:
+          url: "/sneaker"
+      - think: 5

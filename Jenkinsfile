@@ -15,7 +15,7 @@ try{
             commit_id = readFile('.git/commit-id').trim()
         }  
         stage('Build & Test'){
-            nodejs(nodeJSInstallationName: 'nodejs'){
+            nodejs(nodeJSInstallationName: 'NodeJS'){
                 sh "npm install"
                 sh "npm-test"
             }

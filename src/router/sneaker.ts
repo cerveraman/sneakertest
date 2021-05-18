@@ -4,8 +4,8 @@ import {sneaker} from "../models/sneaker";
 
 export const SneakerRouter = express.Router();
 //const client = redis.createClient(6379,'host.docker.internal');
-//const client = redis.createClient(6379,'redis');
-const client = redis.createClient();
+const client = redis.createClient(6379,'redis');
+//const client = redis.createClient();
 SneakerRouter.get('/v1/sneaker', async (req, res) => {
     await client.hgetall('Sneakers',(error, orderList) => {
         if (error) return res.status(500).send(error);

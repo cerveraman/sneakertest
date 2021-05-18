@@ -1,6 +1,6 @@
 import {sneaker} from "./sneaker";
 import {tokenizer} from "../controllers/tokenizer"
-export abstract class order {
+export class order {
     customerId: string;
     orderId: string;
     sneakerList: sneaker[];

@@ -13,6 +13,8 @@ try{
             checkout scm
             sh "git rev-parse --short HEAD > .git/commit-id"
             commit_id = readFile('.git/commit-id').trim()
+            sh "curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-
+                `uname -s`-`uname -m` > /usr/local/bin/docker-compose"
         }  
         stage('Build & Test'){
             nodejs(nodeJSInstallationName: 'NodeJS'){

@@ -17,7 +17,7 @@ try{
         stage('Build & Test'){
             nodejs(nodeJSInstallationName: 'NodeJS'){
                 sh "npm install"
-                sh "npm-test"
+                sh "npm test"
             }
             sh "docker build -t cerveraman/sneakertest ."
             sh "docker-compose up"

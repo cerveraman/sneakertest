@@ -23,9 +23,9 @@ try{
         stage('Deploy'){
             
             withCredentials([usernamePassword(credentialsId: DOCKER_COMMON_CREDS, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                echo "${env.DOCKER_USER}"
+                echo "${env.DOCKER_USR}"
                 echo "hecho"
-                sh "docker login -u ${env.DOCKER_USER} -p ${env.DOCKER_PASS} ${DOCKER_REPO}"
+                sh "docker login -u ${env.DOCKER_USR} -p ${env.DOCKER_PSW} ${DOCKER_REPO}"
             }
             sh "docker push ${DOCKER_REPO}/${DOCKER_IMAGE}:${commit_id}"
         }

@@ -1,14 +1,9 @@
 def commit_id
-def DOCKER_COMMON_CREDS
-def DOCKER_REPO
-def DOCKER_IMAGE
+def DOCKER_COMMON_CREDS='docker-user'
+def DOCKER_REPO = "cerveraman"
+def DOCKER_IMAGE = "sneakertest"
 try{
     node {
-        environment {
-            DOCKER_COMMON_CREDS = credentials('docker-user')
-            DOCKER_REPO = "cerveraman"
-            DOCKER_IMAGE = "sneakertest"
-        }
         stage('Preparation'){
             checkout scm
             sh "git rev-parse --short HEAD > .git/commit-id"
@@ -18,15 +13,14 @@ try{
         }  
         stage('Build & Test'){
             sh "docker build -t cerveraman/sneakertest ."
-            sh "/usr/local/bin/docker-compose up"
+            
         }
         stage('Deploy'){
             
             withCredentials([usernamePassword(credentialsId: DOCKER_COMMON_CREDS, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                echo "${env.DOCKER_USR}"
-                echo "hecho"
-                sh "docker login -u ${env.DOCKER_USR} -p ${env.DOCKER_PSW} ${DOCKER_REPO}"
+                sh "docker login -u ${env.DOCKER_USER} -p ${env.DOCKER_PASS} ${DOCKER_REPO}"
             }
+            echo "hecho"
             sh "docker push ${DOCKER_REPO}/${DOCKER_IMAGE}:${commit_id}"
         }
     }

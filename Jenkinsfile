@@ -21,7 +21,10 @@ try{
             sh "/usr/local/bin/docker-compose up"
         }
         stage('Deploy'){
+            
             withCredentials([usernamePassword(credentialsId: DOCKER_COMMON_CREDS, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                echo "${env.DOCKER_USER}"
+                echo "hecho"
                 sh "docker login -u ${env.DOCKER_USER} -p ${env.DOCKER_PASS} ${DOCKER_REPO}"
             }
             sh "docker push ${DOCKER_REPO}/${DOCKER_IMAGE}:${commit_id}"

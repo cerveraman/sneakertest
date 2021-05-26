@@ -2,7 +2,7 @@ def commit_id
 def DOCKER_COMMON_CREDS='docker-user'
 def DOCKER_REPO = "docker.io"
 def DOCKER_IMAGE = "cerveraman/sneakertest"
-def dollar = "$"
+
 try{
     node {
         stage('Preparation'){

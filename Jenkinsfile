@@ -1,7 +1,7 @@
 def commit_id
 def DOCKER_COMMON_CREDS='docker-user'
-def DOCKER_REPO = "cerveraman"
-def DOCKER_IMAGE = "sneakertest"
+def DOCKER_REPO = "docker.io"
+def DOCKER_IMAGE = "cerveraman/sneakertest"
 try{
     node {
         stage('Preparation'){
@@ -21,7 +21,11 @@ try{
                 sh "docker login -u ${env.DOCKER_USER} -p ${env.DOCKER_PASS} ${DOCKER_REPO}"
             }
             echo "hecho"
-            sh "docker push ${DOCKER_REPO}/${DOCKER_IMAGE}:${commit_id}"
+            sh "docker push ${DOCKER_REPO}/${DOCKER_IMAGE}"
+        }
+        stage('kubernetes'){
+            sh "kubectl apply -f deployment-redis.yaml"
+            sh "kubectl apply -f service-redis.yaml"
         }
     }
 } catch (def e) {
